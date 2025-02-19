@@ -1,0 +1,96 @@
+{
+	"info": {
+		"name": "Biomarker Prediction API - Form Data",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Predict Single Image (Form-Data)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "models",
+							"value": "[\"Age\", \"BMI\", \"Glucose\"]",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5001/predict",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "5001",
+					"path": ["predict"]
+				}
+			}
+		},
+		{
+			"name": "Predict Multiple Images (Form-Data)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": [],
+							"description": "Select multiple files"
+						},
+						{
+							"key": "models",
+							"value": "[\"Age\", \"BMI\", \"Glucose\", \"HbA1c\"]",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5001/predict",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "5001",
+					"path": ["predict"]
+				}
+			}
+		},
+		{
+			"name": "Predict All Biomarkers (Form-Data)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "models",
+							"value": "[\"Age\", \"BMI\", \"Diastolic Blood Pressure\", \"Systolic Blood Pressure\", \"Total Cholesterol\", \"Creatinine\", \"Estradiol\", \"Glucose\", \"HbA1c\", \"HDL-Cholesterol\", \"Hematocrit\", \"Hemoglobin\", \"Insulin\", \"LDL-Cholesterol\", \"Red Blood Cell\", \"SHBG\", \"Testosterone\", \"Triglyceride\"]",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5001/predict",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "5001",
+					"path": ["predict"]
+				}
+			}
+		}
+	]
+}
