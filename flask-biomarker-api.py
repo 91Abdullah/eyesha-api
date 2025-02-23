@@ -16,6 +16,8 @@ import traceback
 from typing import List, Dict, Union, Optional
 from torchvision.models import mobilenet_v3_large, MobileNet_V3_Large_Weights, mobilenet_v2
 import json
+import os
+from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -35,27 +37,53 @@ class_mapping = {
 }
 
 # Model paths mapping
+# MODEL_PATHS = {
+#     "Age": '/mnt/d/PhD_Research/CVD Models/Age/mobilenetv3large_regressor_best.pth',
+#     "Gender": '/mnt/d/PhD_Research/CVD Models/Gender/mobilenetv3large_regressor_best.pth',
+#     "BMI": '/mnt/d/PhD_Research/CVD Models/BMI/mobilenetv3large_regressor_best.pth',
+#     "Diastolic Blood Pressure": '/mnt/d/PhD_Research/CVD Models/BP_OUT_CALC_AVG_DIASTOLIC_BP/mobilenetv3large_regressor_best.pth',
+#     "Systolic Blood Pressure": '/mnt/d/PhD_Research/CVD Models/BP_OUT_CALC_AVG_SYSTOLIC_BP/mobilenetv3large_regressor_best.pth',
+#     "Total Cholesterol": '/mnt/d/PhD_Research/CVD Models/Cholesterol Total/mobilenetv3large_regressor_best.pth',
+#     "Creatinine": '/mnt/d/PhD_Research/CVD Models/Creatinine/mobilenetv3large_regressor_best.pth',
+#     "Estradiol": '/mnt/d/PhD_Research/CVD Models/Estradiol/mobilenetv3large_regressor_best.pth',
+#     "Glucose": '/mnt/d/PhD_Research/CVD Models/Glucose/mobilenetv3large_regressor_best.pth',
+#     "HbA1c": '/mnt/d/PhD_Research/CVD Models/HBA 1C %/mobilenetv3large_regressor_best.pth',
+#     "HDL-Cholesterol": '/mnt/d/PhD_Research/CVD Models/HDL-Cholesterol/mobilenetv3large_regressor_best.pth',
+#     "Hematocrit": '/mnt/d/PhD_Research/CVD Models/Hematocrit/mobilenetv3large_regressor_best.pth',
+#     "Hemoglobin": '/mnt/d/PhD_Research/CVD Models/Hemoglobin/mobilenetv3large_regressor_best.pth',
+#     "Insulin": '/mnt/d/PhD_Research/CVD Models/Insulin/mobilenetv3large_regressor_best.pth',
+#     "LDL-Cholesterol": '/mnt/d/PhD_Research/CVD Models/LDL-Cholesterol Calc/mobilenetv3large_regressor_best.pth',
+#     "Red Blood Cell": '/mnt/d/PhD_Research/CVD Models/Red Blood Cell/mobilenetv3large_regressor_best.pth',
+#     "SHBG": '/mnt/d/PhD_Research/CVD Models/SexHormone Binding Globulin/mobilenetv3large_regressor_best.pth',
+#     "Testosterone": '/mnt/d/PhD_Research/CVD Models/Testosterone Total/mobilenetv3large_regressor_best.pth',
+#     "Triglyceride": '/mnt/d/PhD_Research/CVD Models/Triglyceride/mobilenetv3large_regressor_best.pth'
+# }
+
+load_dotenv()
+
 MODEL_PATHS = {
-    "Age": '/mnt/d/PhD_Research/CVD Models/Age/mobilenetv3large_regressor_best.pth',
-    "Gender": '/mnt/d/PhD_Research/CVD Models/Gender/mobilenetv3large_regressor_best.pth',
-    "BMI": '/mnt/d/PhD_Research/CVD Models/BMI/mobilenetv3large_regressor_best.pth',
-    "Diastolic Blood Pressure": '/mnt/d/PhD_Research/CVD Models/BP_OUT_CALC_AVG_DIASTOLIC_BP/mobilenetv3large_regressor_best.pth',
-    "Systolic Blood Pressure": '/mnt/d/PhD_Research/CVD Models/BP_OUT_CALC_AVG_SYSTOLIC_BP/mobilenetv3large_regressor_best.pth',
-    "Total Cholesterol": '/mnt/d/PhD_Research/CVD Models/Cholesterol Total/mobilenetv3large_regressor_best.pth',
-    "Creatinine": '/mnt/d/PhD_Research/CVD Models/Creatinine/mobilenetv3large_regressor_best.pth',
-    "Estradiol": '/mnt/d/PhD_Research/CVD Models/Estradiol/mobilenetv3large_regressor_best.pth',
-    "Glucose": '/mnt/d/PhD_Research/CVD Models/Glucose/mobilenetv3large_regressor_best.pth',
-    "HbA1c": '/mnt/d/PhD_Research/CVD Models/HBA 1C %/mobilenetv3large_regressor_best.pth',
-    "HDL-Cholesterol": '/mnt/d/PhD_Research/CVD Models/HDL-Cholesterol/mobilenetv3large_regressor_best.pth',
-    "Hematocrit": '/mnt/d/PhD_Research/CVD Models/Hematocrit/mobilenetv3large_regressor_best.pth',
-    "Hemoglobin": '/mnt/d/PhD_Research/CVD Models/Hemoglobin/mobilenetv3large_regressor_best.pth',
-    "Insulin": '/mnt/d/PhD_Research/CVD Models/Insulin/mobilenetv3large_regressor_best.pth',
-    "LDL-Cholesterol": '/mnt/d/PhD_Research/CVD Models/LDL-Cholesterol Calc/mobilenetv3large_regressor_best.pth',
-    "Red Blood Cell": '/mnt/d/PhD_Research/CVD Models/Red Blood Cell/mobilenetv3large_regressor_best.pth',
-    "SHBG": '/mnt/d/PhD_Research/CVD Models/SexHormone Binding Globulin/mobilenetv3large_regressor_best.pth',
-    "Testosterone": '/mnt/d/PhD_Research/CVD Models/Testosterone Total/mobilenetv3large_regressor_best.pth',
-    "Triglyceride": '/mnt/d/PhD_Research/CVD Models/Triglyceride/mobilenetv3large_regressor_best.pth'
+    "Age": os.getenv('MODEL_PATH_AGE', '/mnt/d/PhD_Research/CVD Models/Age/mobilenetv3large_regressor_best.pth'),
+    "Gender": os.getenv('MODEL_PATH_GENDER', '/mnt/d/PhD_Research/CVD Models/Gender/mobilenetv3large_regressor_best.pth'),
+    "BMI": os.getenv('MODEL_PATH_BMI', '/mnt/d/PhD_Research/CVD Models/BMI/mobilenetv3large_regressor_best.pth'),
+    "Diastolic Blood Pressure": os.getenv('MODEL_PATH_DIASTOLIC_BP', '/mnt/d/PhD_Research/CVD Models/BP_OUT_CALC_AVG_DIASTOLIC_BP/mobilenetv3large_regressor_best.pth'),
+    "Systolic Blood Pressure": os.getenv('MODEL_PATH_SYSTOLIC_BP', '/mnt/d/PhD_Research/CVD Models/BP_OUT_CALC_AVG_SYSTOLIC_BP/mobilenetv3large_regressor_best.pth'),
+    "Total Cholesterol": os.getenv('MODEL_PATH_TOTAL_CHOLESTEROL', '/mnt/d/PhD_Research/CVD Models/Cholesterol Total/mobilenetv3large_regressor_best.pth'),
+    "Creatinine": os.getenv('MODEL_PATH_CREATININE', '/mnt/d/PhD_Research/CVD Models/Creatinine/mobilenetv3large_regressor_best.pth'),
+    "Estradiol": os.getenv('MODEL_PATH_ESTRADIOL', '/mnt/d/PhD_Research/CVD Models/Estradiol/mobilenetv3large_regressor_best.pth'),
+    "Glucose": os.getenv('MODEL_PATH_GLUCOSE', '/mnt/d/PhD_Research/CVD Models/Glucose/mobilenetv3large_regressor_best.pth'),
+    "HbA1c": os.getenv('MODEL_PATH_HBA1C', '/mnt/d/PhD_Research/CVD Models/HBA 1C %/mobilenetv3large_regressor_best.pth'),
+    "HDL-Cholesterol": os.getenv('MODEL_PATH_HDL_CHOLESTEROL', '/mnt/d/PhD_Research/CVD Models/HDL-Cholesterol/mobilenetv3large_regressor_best.pth'),
+    "Hematocrit": os.getenv('MODEL_PATH_HEMATOCRIT', '/mnt/d/PhD_Research/CVD Models/Hematocrit/mobilenetv3large_regressor_best.pth'),
+    "Hemoglobin": os.getenv('MODEL_PATH_HEMOGLOBIN', '/mnt/d/PhD_Research/CVD Models/Hemoglobin/mobilenetv3large_regressor_best.pth'),
+    "Insulin": os.getenv('MODEL_PATH_INSULIN', '/mnt/d/PhD_Research/CVD Models/Insulin/mobilenetv3large_regressor_best.pth'),
+    "LDL-Cholesterol": os.getenv('MODEL_PATH_LDL_CHOLESTEROL', '/mnt/d/PhD_Research/CVD Models/LDL-Cholesterol Calc/mobilenetv3large_regressor_best.pth'),
+    "Red Blood Cell": os.getenv('MODEL_PATH_RED_BLOOD_CELL', '/mnt/d/PhD_Research/CVD Models/Red Blood Cell/mobilenetv3large_regressor_best.pth'),
+    "SHBG": os.getenv('MODEL_PATH_SHBG', '/mnt/d/PhD_Research/CVD Models/SexHormone Binding Globulin/mobilenetv3large_regressor_best.pth'),
+    "Testosterone": os.getenv('MODEL_PATH_TESTOSTERONE', '/mnt/d/PhD_Research/CVD Models/Testosterone Total/mobilenetv3large_regressor_best.pth'),
+    "Triglyceride": os.getenv('MODEL_PATH_TRIGLYCERIDE', '/mnt/d/PhD_Research/CVD Models/Triglyceride/mobilenetv3large_regressor_best.pth')
 }
+
+MODEL_PATH_DR = os.getenv('MODEL_PATH_DR', '/mnt/d/PhD_Research/DR Predictions/MobileNetv2_DR_prediciton Model and code/best_mobilenet_v2.pth')
 
 class ImageProcessor:
     """Handles image processing operations"""
@@ -265,7 +293,7 @@ class DiseasePredictor:
         self.model.classifier[1] = torch.nn.Linear(num_ftrs, 5)  # Assuming 5 classes for APTOS 2019
 
     def _load_model(self):
-        self.model.load_state_dict(torch.load('/mnt/d/PhD_Research/DR Predictions/MobileNetv2_DR_prediciton Model and code/best_mobilenet_v2.pth', map_location=DEVICE))
+        self.model.load_state_dict(torch.load(MODEL_PATH_DR, map_location=DEVICE))
         self.model.eval()
         self.model.to(DEVICE)
 

@@ -1,4 +1,3 @@
-# Docker Compose file (./docker-compose.yml)
 version: '3.8'
 
 services:
@@ -9,7 +8,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NEXT_PUBLIC_API_URL=http://backend:5001
     depends_on:
       - backend
 
@@ -18,8 +17,28 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "5001:5001"
     environment:
       - CORS_ORIGINS=http://localhost:3000
+      - MODEL_PATH_AGE
+      - MODEL_PATH_GENDER
+      - MODEL_PATH_BMI
+      - MODEL_PATH_DIASTOLIC_BP
+      - MODEL_PATH_SYSTOLIC_BP
+      - MODEL_PATH_TOTAL_CHOLESTEROL
+      - MODEL_PATH_CREATININE
+      - MODEL_PATH_ESTRADIOL
+      - MODEL_PATH_GLUCOSE
+      - MODEL_PATH_HBA1C
+      - MODEL_PATH_HDL_CHOLESTEROL
+      - MODEL_PATH_HEMATOCRIT
+      - MODEL_PATH_HEMOGLOBIN
+      - MODEL_PATH_INSULIN
+      - MODEL_PATH_LDL_CHOLESTEROL
+      - MODEL_PATH_RED_BLOOD_CELL
+      - MODEL_PATH_SHBG
+      - MODEL_PATH_TESTOSTERONE
+      - MODEL_PATH_TRIGLYCERIDE
     volumes:
       - ./backend:/app
+      - ./.env:/app/.env
