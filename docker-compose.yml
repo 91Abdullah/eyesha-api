@@ -8,7 +8,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:5001
+      - REACT_APP_API_BASE_URL=http://backend:5001
     depends_on:
       - backend
 
@@ -39,6 +39,7 @@ services:
       - MODEL_PATH_SHBG
       - MODEL_PATH_TESTOSTERONE
       - MODEL_PATH_TRIGLYCERIDE
+      - MODEL_PATH_DR
     volumes:
       - ./backend:/app
       - ./.env:/app/.env
